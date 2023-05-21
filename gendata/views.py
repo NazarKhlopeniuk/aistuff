@@ -13,7 +13,7 @@ def index(request):
 def prompt(request):
     return render(request, 'prompt.html')
 
-def generate(request):
+def rsa(request):
 
     type = request.POST.get('type')
     
