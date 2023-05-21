@@ -4,7 +4,7 @@ import openai
 import json
 from os import environ
 
-# openai.api_key = "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"
+# openai.api_key = "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"
 OPENAI_API_KEY = environ.get("OPENAI_API_KEY")
 # Create your views here.
 def index(request):
