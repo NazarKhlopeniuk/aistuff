@@ -2,8 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 import openai
 import json
+from os import environ
 
-openai.api_key = "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"
+# openai.api_key = "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"
+OPENAI_API_KEY = environ.get("OPENAI_API_KEY")
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
