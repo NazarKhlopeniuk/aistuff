@@ -1,1 +1,1 @@
-web: gunicorn copilotv2.wsgi
+web: gunicorn aistuff.wsgi
