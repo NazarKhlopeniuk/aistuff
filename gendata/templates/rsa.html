@@ -301,7 +301,6 @@ $(function () {
           responseType:'blob'
         },
         success: function(data){
-          print(data)
           var blob = new Blob([data], {type:'application/ms-excel'});
           saveAs(blob, 'rsa.xlsx');
         }
