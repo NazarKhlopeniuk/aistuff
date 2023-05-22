@@ -3,8 +3,8 @@ from django.shortcuts import redirect, render
 import openai
 import json
 from os import environ
+import openpyxl
 
-# openai.api_key = "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"
 OPENAI_API_KEY = environ.get("OPENAI_API_KEY")
 # Create your views here.
 def index(request):
@@ -75,3 +75,28 @@ def get_response(prompt):
 
 def generate_sitelink(request):
     pass
+
+def download(request):
+    print("Download")
+    response = HttpResponse(content_type='application/ms-excel')
+    # response['Content-Disposition'] = 'attachment; filename="rsa.xlsx"'
+
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+    worksheet.title = "Data"
+    # Write the data to the Excel file
+    i = 1
+    global data
+    for key, value in data.items():
+        title_cell = worksheet.cell(row=1, column=i)
+        title_cell.value = key
+        
+        rsa_cell = worksheet.cell(row=2, column=i)
+        rsa_cell.value = value
+        
+        i += 1
+
+    # Save the Excel file to the response
+    workbook.save(response)
+    
+    return response

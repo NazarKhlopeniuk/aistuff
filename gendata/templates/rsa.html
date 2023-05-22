@@ -12,7 +12,7 @@
                             <p>
                                 Create RSA with unique headlines and descriptions, include the CTAs.
                             </p>
-                            <form class="row g-3" action="{% url 'gendata:generate' %}" method="POST">
+                            <form class="row g-3" method="POST">
                                 {% csrf_token %}
                                 <div class="form-outline">
                                     <label class="form-label" for="headline">Final URL</label>
@@ -87,7 +87,7 @@
                                     <textarea rows="2" class="form-control" id="headline1" name="description2" required>{{response.description2}}</textarea>
                                 </div>
                                 <div class="col-12">
-                                    <button id="btn-rsa" class="btn btn-primary">Download</button>
+                                    <button id="btn-download" class="btn btn-primary">Download</button>
                                 </div>
                             </form>
                         </div>
@@ -285,166 +285,27 @@
     </main>
 <style>.mr10 {
     margin-right: 10px;
-}</style><script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script><script>// $("#btn-rsa").click(function (){
-// var prompt = $('#rsa_prompt').val();
-// console.log(prompt)
-// $.ajax{}
-// })
-
-
-var $rsa_table = $('#rsa_table')
-var $site_table = $('#site_table')
-
-function buildTable($el, rows) {
-    var headlines = 15
-    var descriptions = 4
-    var rows = rows
-    var i
-    var j
-    var row
-    var columns = [{
-            field: 'state',
-            valign: 'middle'
-        }]
-    var data = []
-
-    for (i = 0; i < headlines; i++) {
-        columns.push({
-            field: 'field' + i,
-            title: 'Headline' + (
-                i + 1
-            ),
-            sortable: true,
-            valign: 'middle',
-            formatter: function (val) {
-                return '<div class="item">' + val + '</div>'
-            },
-            events: {
-                'click .item': function () {
-                    console.log('click')
-                }
-            }
-        })
-    }
-
-    for (i = 0; i < descriptions; i++) {
-        columns.push({
-            field: 'field' + i,
-            title: 'Description' + (
-                i + 1
-            ),
-            sortable: true,
-            valign: 'middle',
-            formatter: function (val) {
-                return '<div class="item">' + val + '</div>'
-            },
-            events: {
-                'click .item': function () {
-                    console.log('click')
-                }
-            }
-        })
-    }
-
-    columns.push({
-        field: 'field14',
-        title: 'Action',
-        valign: 'middle',
-        formatter: function (val) {
-            return '<a class="btn btn-primary"> Delete </a>'
-        }
-    })
-
-    for (i = 0; i < rows; i++) {
-        row = {}
-        for (j = 0; j < headlines + descriptions; j++) {
-            row['field' + j] = 'Row-' + i + '-' + j
-        }
-        data.push(row)
-    }
-    $el.bootstrapTable('destroy').bootstrapTable({
-        height: $('#height').prop('checked') ? 400 : undefined,
-        columns: columns,
-        data: data,
-        search: true,
-        showColumns: true,
-        showToggle: true,
-        clickToSelect: true,
-        fixedColumns: true,
-        fixedNumber: 2,
-        fixedRightNumber: 1
-    })
-}
+}</style><script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.js" integrity="sha512-UNbeFrHORGTzMn3HTt00fvdojBYHLPxJbLChmtoyDwB6P9hX5mah3kMKm0HHNx/EvSPJt14b+SlD8xhuZ4w9Lg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
 
 $(function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
-    buildTable($rsa_table, 1)
-    // buildTable($site_table)
-
-    $('#build').click(function () {
-        buildTable($rsa_table, 1)
+    $('#btn-download').click(function (e){
+      e.preventDefault()
+      $.ajax({
+        type:'GET',
+        url: '/download',
+        xhrFields: {
+          responseType:'blob'
+        },
+        success: function(data){
+          print(data)
+          var blob = new Blob([data], {type:'application/ms-excel'});
+          saveAs(blob, 'rsa.xlsx');
+        }
+      })
     })
 
-    {% comment %} $('#btn-rsa').click(function (e) {
-        e.preventDefault();
-
-        var rsa_product = $('#rsa-product').val();
-        var rsa_tone = $('#rsa-tone').val();
-        var rsa_cta = $('#rsa-cta').val();
-        var rsa_target = $('#rsa-target').val();
-        var rsa_case = $('#rsa-case').val();
-
-        $.ajax({
-            type: "POST",
-            url: "/generate",
-            headers: {
-                "X-CSRFToken": csrftoken
-            },
-            data: {
-                'type': 'rsa',
-                'rsa_product': rsa_product,
-                'rsa_tone': rsa_tone,
-                'rsa_cta': rsa_cta,
-                'rsa_target': rsa_target,
-                'rsa_case': rsa_case
-            },
-            success: function (data) {
-                console.log(data)
-
-            }
-        });
-    }) {% endcomment %}
-
-    $('#btn-sl').click(function (e) {
-        e.preventDefault();
-
-        var rsa_product = $('#sl-product').val();
-        var rsa_tone = $('#sl-tone').val();
-        var rsa_cta = $('#sl-cta').val();
-        var rsa_target = $('#sl-target').val();
-        var rsa_case = $('#sl-case').val();
-
-        $.ajax({
-            type: "POST",
-            url: "/generate",
-            headers: {
-                "X-CSRFToken": csrftoken
-            },
-            data: {
-                'type': 'sl',
-                'sl_product': sl_product,
-                'sl_tone': sl_tone,
-                'sl_urls': sl_urls
-            },
-            success: function (data) {
-                console.log(data)
-
-            }
-        });
-    })
-
-    // $('#rsa_table tbody tr').each(function(index) {
-    // $(this).find('td:nth-child(1)').text(index + 1);
-    // });
 })</script>{% endblock %}
