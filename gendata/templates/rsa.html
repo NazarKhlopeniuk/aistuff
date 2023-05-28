@@ -105,9 +105,8 @@
                                 <h3 class="headline">
                                   <a href="http://www.responsivesearchads.com/top-features" rel="nofollow">
                                     <!-- ngRepeat: headline in getHeadlinesToDisplay(ad) -->
-                                    {% with response.items|slice:":15" as response_slice %}
-                                    {% comment %} {% for key, value in response.items|slice:":15" %} {% endcomment %}
-                                    {% for key, value in response_slice %}
+                                    
+                                    {% for key, value in response.items|slice:":15" %}
                                         
                                     <span class="ng-scope ng-binding">
                                       <!-- ngIf: !$first -->
