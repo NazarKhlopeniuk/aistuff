@@ -8,6 +8,8 @@ import itertools
 
 OPENAI_API_KEY = environ.get("OPENAI_API_KEY")
 # Create your views here.
+global response
+
 def index(request):
     return render(request, 'index.html')
 
@@ -36,6 +38,7 @@ def rsa(request):
         can have up to 90 characters. CTA = call to action. RSA = Responsive\
         Search Ad. Provide response in the JSON format with the keys: headline1, headline2, ..., description1, description2.\n"
     prompt = main_prompt + "Product:" + product + "Tone:" + tone + "CTA:" + cta + "Target audience:" + audience + "Case:" + case
+    global response
     response = get_response(prompt)
     # else:
     #     urls = request.POST.get('sl_urls')
@@ -81,6 +84,7 @@ def generate_sitelink(request):
 
 def download(request):
     print("Download")
+    global response
     response = HttpResponse(content_type='application/ms-excel')
     # response['Content-Disposition'] = 'attachment; filename="rsa.xlsx"'
 
@@ -89,8 +93,7 @@ def download(request):
     worksheet.title = "Data"
     # Write the data to the Excel file
     i = 1
-    global data
-    for key, value in data.items():
+    for key, value in response.items():
         title_cell = worksheet.cell(row=1, column=i)
         title_cell.value = key
         
