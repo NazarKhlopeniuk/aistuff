@@ -22,7 +22,7 @@ def rsa(request):
     finalUrl = request.POST.get('rsa-finalurl')
     tone = request.POST['rsa-tone']
     audience = request.POST['rsa-audience']
-    case = request.POST.POST['rsa-case']
+    case = request.POST['rsa-case']
 
 
     # if type == 'rsa':
