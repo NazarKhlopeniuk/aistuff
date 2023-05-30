@@ -178,7 +178,7 @@
                                               {% for key, value in headlines.items %}
                                               <span ng-repeat="headline in getHeadlinesToDisplay(ad)" class="ng-scope ng-binding">
                                                 <!-- ngIf: !$first -->
-                                                {{value}} | 
+                                                {{value}} {% if forloop.counter != 15 %}|{% endif %} 
                                               </span>
                                               {% endfor %}
                                             </a>
