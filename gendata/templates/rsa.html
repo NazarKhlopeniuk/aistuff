@@ -106,10 +106,9 @@
                                   <a href="http://www.responsivesearchads.com/top-features" rel="nofollow">
                                     <!-- ngRepeat: headline in getHeadlinesToDisplay(ad) -->
                                     
-                                    {% for key, value in headlines %}
+                                    {% for key, value in headlines.items() %}
                                     <span class="ng-scope ng-binding">
                                       <!-- ngIf: !$first -->
-                                      {{response.{{"headline" + str(i)}}}}
                                       {{value}} | 
                                     </span>
                                     {% endfor %}
