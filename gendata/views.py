@@ -8,7 +8,7 @@ import itertools
 
 OPENAI_API_KEY = environ.get("OPENAI_API_KEY")
 # Create your views here.
-global response
+global data
 
 def index(request):
     return render(request, 'index.html')
@@ -38,27 +38,27 @@ def rsa(request):
         can have up to 90 characters. CTA = call to action. RSA = Responsive\
         Search Ad. Provide response in the JSON format with the keys: headline1, headline2, ..., description1, description2.\n"
     prompt = main_prompt + "Product:" + product + "Tone:" + tone + "CTA:" + cta + "Target audience:" + audience + "Case:" + case
-    global response
-    response = get_response(prompt)
+    global data
+    data = get_response(prompt)
     # else:
     #     urls = request.POST.get('sl_urls')
 
     #     main_prompt = "Create Google Ads sitelink extensions with unique headlines \
     #         and descriptions using the following final URLs. Include the final URLs \
-    #         in your response. Stick to the format and character limits.\
+    #         in your data. Stick to the format and character limits.\
     #         Link text: 25 characters\
     #         Description Line 1: 35 characters\
     #         Description Line 2: 35 characters"
     #     prompt = main_prompt + "Product:" + product + "Tone:" + tone + "Final URLs:" + urls
-    #     response = get_response(prompt)
-    response = json.loads(response)
-    response['finalUrl'] = finalUrl
-    print((response))
-    # response = json.dumps(response)
-    # print(type(response))
-    headlines = dict(itertools.islice(response.items(),15))
+    #     data = get_response(prompt)
+    data = json.loads(data)
+    data['finalUrl'] = finalUrl
+    print((data))
+    # data = json.dumps(data)
+    # print(type(data))
+    headlines = dict(itertools.islice(data.items(),15))
     
-    return render(request, 'rsa.html', {'response':response, 'headlines':headlines})
+    return render(request, 'rsa.html', {'response':data, 'headlines':headlines})
 
 
 def get_response(prompt):
@@ -84,7 +84,7 @@ def generate_sitelink(request):
 
 def download(request):
     print("Download")
-    global response
+    global data
     response = HttpResponse(content_type='application/ms-excel')
     # response['Content-Disposition'] = 'attachment; filename="rsa.xlsx"'
 
@@ -93,7 +93,7 @@ def download(request):
     worksheet.title = "Data"
     # Write the data to the Excel file
     i = 1
-    for key, value in response.items():
+    for key, value in data.items():
         title_cell = worksheet.cell(row=1, column=i)
         title_cell.value = key
         
