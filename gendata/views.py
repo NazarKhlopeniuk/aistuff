@@ -52,7 +52,9 @@ def rsa(request):
     print((response))
     # response = json.dumps(response)
     # print(type(response))
-    return render(request, 'rsa.html', {'response':response})
+    headlines = list(response.items())[:15]
+    
+    return render(request, 'rsa.html', {'response':response, 'headlines':headlines})
 
 
 def get_response(prompt):
