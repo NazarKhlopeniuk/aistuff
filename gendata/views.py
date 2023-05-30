@@ -4,6 +4,7 @@ import openai
 import json
 from os import environ
 import openpyxl
+import itertools
 
 OPENAI_API_KEY = environ.get("OPENAI_API_KEY")
 # Create your views here.
@@ -52,7 +53,7 @@ def rsa(request):
     print((response))
     # response = json.dumps(response)
     # print(type(response))
-    headlines = list(response.items())[:15]
+    headlines = dict(itertools.islice(response.items(),15))
     
     return render(request, 'rsa.html', {'response':response, 'headlines':headlines})
 
