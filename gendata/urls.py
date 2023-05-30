@@ -5,5 +5,7 @@ app_name='gendata'
 urlpatterns = [
     path('', views.index, name="index"),
     path('prompt', views.prompt, name='prompt'),
-    path('rsa', views.rsa, name='rsa')
+    path('rsa', views.rsa, name='rsa'),
+    path('download', views.download, name='download'),
+    
 ]
