@@ -107,11 +107,12 @@
                                     <!-- ngRepeat: headline in getHeadlinesToDisplay(ad) -->
                                     
                                     {% for key, value in response.items|slice:":15" %}
-                                        
+                                        {% if key.startswith('h') %}
                                     <span class="ng-scope ng-binding">
                                       <!-- ngIf: !$first -->
                                       {{value}} | 
                                     </span>
+                                    {% endif %}
                                     {% endfor %}
                                     {% comment %} <span ng-repeat="headline in getHeadlinesToDisplay(ad)" class="ng-scope ng-binding">
                                       <!-- ngIf: !$first --><span ng-if="!$first" class="ng-scope">|</span>
