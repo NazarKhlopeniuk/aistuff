@@ -109,7 +109,7 @@
                                     {% for key, value in headlines.items %}
                                     <span class="ng-scope ng-binding">
                                       <!-- ngIf: !$first -->
-                                      {{value}} | 
+                                      {{value}} {% if forloop.counter != 15 %}|{% endif %} 
                                     </span>
                                     {% endfor %}
 
